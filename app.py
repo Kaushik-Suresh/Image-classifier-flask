@@ -7,13 +7,11 @@
 
 import pandas as pd
 import os
-from keras.models import load_model
-from keras.preprocessing import image
+
 from flask import Flask, render_template, request, redirect, url_for, send_from_directory
 from werkzeug.utils import secure_filename
 
-#Load the model file 
-model=load_model('model_mnist_h5')
+
 #model.make_predict_function()
 
 # Initialize the Flask application
@@ -55,13 +53,7 @@ def upload():
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             # Save the filename into a list, we'll use it later
             filenames.append(filename)
-
-            i = image.load_img(file, target_size=(28,28), grayscale=True)
-            i = image.img_to_array(i)
-            resize_image= np.array([i], order='C')
-            #img_out = image.array_to_img(resize_image.reshape(28,28,1))
-            prediction = model.predict(resize_image)
-            p.append(prediction.argmax())
+            p.append(0)
 
             #p.append(random.randint(0,22))
             # Redirect the user to the uploaded_file route, which
